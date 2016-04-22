@@ -9,6 +9,8 @@ We're going to add more user data!
 
 ## Description
 
+[Here's some SQL Stuff You'll Need](https://gist.github.com/raynjamin/ed745a479f31505095ee9163095fa2d7)
+
 Right now, we're storing our user objects in a HashMap, in code. We're getting more advanced, so we need to store more User data for our Microblog. We don't want to store User data inside our `Messages` table, so we're going to create another table.
 
 ## Requirements
