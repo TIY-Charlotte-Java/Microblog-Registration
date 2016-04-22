@@ -28,6 +28,6 @@ Right now, we're storing our user objects in a HashMap, in code. We're getting m
   * This will ensure that you are incapable of adding a message to `Messages` without specifying a valid user.
   
 * For the `/messages` endpoint, if a user session is not valid, redirect to `login`.
-* 
+
 
 [vega]: http://i.imgur.com/RBWxUYd.png
