@@ -35,6 +35,8 @@ public class Main {
             int messageNumber = Integer.valueOf(request.queryParams("choice"));
             User currentUser = users.get(session.attribute("userName"));
 
+            currentUser.getMessages();
+
             User.deleteMessage(messageNumber);
 
             response.redirect("/");
