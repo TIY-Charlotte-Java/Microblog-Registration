@@ -32,7 +32,7 @@ public class Main {
                 return "";
             }
 
-            int messageNumber = Integer.valueOf(request.queryParams("choice"));
+            int messageNumber = Integer.valueOf(request.queryParams("messageNum"));
             User currentUser = users.get(session.attribute("userName"));
 
             currentUser.getMessages();
@@ -56,10 +56,10 @@ public class Main {
             }
 
             String newMessage = request.queryParams("newMessage");
-            int messageNumber = Integer.valueOf(request.queryParams("messageNumber"));
+            int messageId = Integer.valueOf(request.queryParams("messageNumber"));
 
 
-            User.editMessage(newMessage, messageNumber);
+            User.editMessage(newMessage, messageId);
 
             response.redirect("/");
 
@@ -78,10 +78,10 @@ public class Main {
                     } else {
                         User current = users.get(context.attribute("userName"));
 
-                        HashMap<String, User> model = new HashMap<>();
-                        current.getMessages();
+                        HashMap<String, Object> model = new HashMap<>();
 
                         model.put("user", current);
+                        model.put("messages", current.getMessages());
 
                         return new ModelAndView(model, "messages.html");
                     }

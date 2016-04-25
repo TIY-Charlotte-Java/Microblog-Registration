@@ -22,6 +22,7 @@ public class User {
         PreparedStatement stmnt2 = conn.prepareStatement("SELECT * FROM messages WHERE username = ?");
         stmnt2.setString(1, name);
 
+
         ResultSet results = stmnt2.executeQuery();
         ArrayList<Message> messages = new ArrayList<>();
         while (results.next()) {
@@ -41,9 +42,9 @@ public class User {
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
         //my current problem area\/
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO MESSAGES VALUES(NULL, ?, ?)");
-        stmt.setString(1, Message.userName);
+        stmt.setString(1, name);
         stmt.setString(2, text);
-        stmt.executeQuery();
+        stmt.execute();
 
         //make a statement of add
         //execute statement
@@ -56,7 +57,7 @@ public class User {
 
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM MESSAGES WHERE id=?");
         stmt.setInt(1, messageId);
-
+        stmt.execute();
 
     }
 
@@ -64,11 +65,12 @@ public class User {
         ensureMessagesExists();
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
 
-        PreparedStatement stmt = conn.prepareStatement("UPDATE MESSAGES SET text=?, WHERE id=?");
+        PreparedStatement stmt = conn.prepareStatement("UPDATE MESSAGES SET text=? WHERE id=?");
         stmt.setString(1, text);
         stmt.setInt(2, messageId);
         //make statement of edit
         //execute statement
+        stmt.execute();
     }
 
     private static void ensureMessagesExists() throws SQLException{

@@ -4,9 +4,9 @@ package com.theironyard.clt;
  * Created by Ultramar on 4/19/16.
  */
 public class Message {
-    public static int ID;
-    public static String userName;
-    public static String text;
+    public int ID;
+    public String userName;
+    public String text;
 
     public Message(int ID,String userName,String text) {
         this.ID = ID;
