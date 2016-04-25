@@ -40,7 +40,7 @@ public class User {
         ensureMessagesExists();
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
         //my current problem area\/
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO MESSAGES VALUES(', ?, ?)");
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO MESSAGES VALUES(NULL, ?, ?)");
         stmt.setString(1, Message.userName);
         stmt.setString(2, text);
         stmt.executeQuery();
