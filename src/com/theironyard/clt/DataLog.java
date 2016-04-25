@@ -12,7 +12,7 @@ public class DataLog {
         ensureMessagesExists();
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
 
-        PreparedStatement stmnt2 = conn.prepareStatement("SELECT * FROM messages WHERE userId = ?");
+        PreparedStatement stmnt2 = conn.prepareStatement("select messages.message from messages inner join users on messages.userId = users.id where username = ?;");
         stmnt2.setString(1, name);
 
 
@@ -34,7 +34,7 @@ public class DataLog {
         ensureMessagesExists();
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
         //my current problem area\/
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO MESSAGES VALUES(NULL, ?, ?)");
+        PreparedStatement stmt = conn.prepareStatement("insert into messages values(NULL, select id from users where username = ?, ?);");
 
         stmt.setString(1, userName);
         stmt.setString(2, text);
