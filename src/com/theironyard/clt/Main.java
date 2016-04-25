@@ -107,6 +107,8 @@ public class Main {
 
                         // make sure that the users hashmap has an entry with that name
                         users.putIfAbsent(name, tempUser);
+                    } else {
+                        return new ModelAndView(users, "registration.html");
                     }
 
 
@@ -141,11 +143,15 @@ public class Main {
         Spark.post("/register",
                 (request, response) -> {
                     Session session = request.session();
+
+
+
                     String userName = request.queryParams("userName");
                     String firstName = request.queryParams("firstName");
                     String lastName = request.queryParams("lastName");
 
                     DataLog.addUser(userName,firstName,lastName);
+                    response.redirect("/");
                     return "";
                 }
         );
