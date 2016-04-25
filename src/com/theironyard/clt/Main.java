@@ -145,7 +145,7 @@ public class Main {
                     String firstName = request.queryParams("firstName");
                     String lastName = request.queryParams("lastName");
 
-
+                    DataLog.addUser(userName,firstName,lastName);
                     return "";
                 }
         );

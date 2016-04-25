@@ -12,7 +12,7 @@ public class DataLog {
         ensureMessagesExists();
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
 
-        PreparedStatement stmnt2 = conn.prepareStatement("SELECT * FROM messages WHERE username = ?");
+        PreparedStatement stmnt2 = conn.prepareStatement("SELECT * FROM messages WHERE userId = ?");
         stmnt2.setString(1, name);
 
 
@@ -64,6 +64,17 @@ public class DataLog {
         stmt.setInt(2, messageId);
         //make statement of edit
         //execute statement
+        stmt.execute();
+    }
+
+    public static void addUser(String userName, String firstName, String lastName)throws SQLException {
+        ensureMessagesExists();
+        Connection conn = DriverManager.getConnection("jdbc:h2:./main");
+
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO USERS VALUES(NULL, ?, ?, ?)");
+        stmt.setString(1, userName);
+        stmt.setString(2, firstName);
+        stmt.setString(3, lastName);
         stmt.execute();
     }
 
