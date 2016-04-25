@@ -143,7 +143,7 @@ public class Main {
         Spark.post("/register",
                 (request, response) -> {
                     Session session = request.session();
-                    
+
 
                     String userName = request.queryParams("userName");
                     String firstName = request.queryParams("firstName");
