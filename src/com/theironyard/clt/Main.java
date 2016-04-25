@@ -35,9 +35,9 @@ public class Main {
             int messageNumber = Integer.valueOf(request.queryParams("messageNum"));
             User currentUser = users.get(session.attribute("userName"));
 
-            currentUser.getMessages();
+            DataLog.getMessages(currentUser.name);
 
-            User.deleteMessage(messageNumber);
+            DataLog.deleteMessage(messageNumber);
 
             response.redirect("/");
 
@@ -59,7 +59,7 @@ public class Main {
             int messageId = Integer.valueOf(request.queryParams("messageNumber"));
 
 
-            User.editMessage(newMessage, messageId);
+            DataLog.editMessage(newMessage, messageId);
 
             response.redirect("/");
 
@@ -81,7 +81,7 @@ public class Main {
                         HashMap<String, Object> model = new HashMap<>();
 
                         model.put("user", current);
-                        model.put("messages", current.getMessages());
+                        model.put("messages", DataLog.getMessages(current.name));
 
                         return new ModelAndView(model, "messages.html");
                     }
@@ -99,6 +99,7 @@ public class Main {
 
                     // if user exists at username
                     User tempUser = new User(name);
+
 
                     if (password.equals(tempUser.password)) {
                         // save name to session
@@ -129,7 +130,7 @@ public class Main {
 
                     User currentUser = users.get(session.attribute("userName"));
 
-                    currentUser.addMessage(message);
+                    DataLog.addMessage(currentUser.name, message);
                     response.redirect("/");
 
 
@@ -137,7 +138,17 @@ public class Main {
                 }
         );
 
+        Spark.post("/register",
+                (request, response) -> {
+                    Session session = request.session();
+                    String userName = request.queryParams("userName");
+                    String firstName = request.queryParams("firstName");
+                    String lastName = request.queryParams("lastName");
 
+
+                    return "";
+                }
+        );
     }
 
 }

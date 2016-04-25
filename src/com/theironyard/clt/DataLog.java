@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class DataLog {
 
-    public ArrayList<Message> getMessages() throws SQLException {
+    public static ArrayList<Message> getMessages(String name) throws SQLException {
         ensureMessagesExists();
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
 
@@ -30,12 +30,13 @@ public class DataLog {
         return messages;
     }
 
-    public void addMessage(String text) throws SQLException{
+    public static void addMessage(String userName, String text) throws SQLException{
         ensureMessagesExists();
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
         //my current problem area\/
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO MESSAGES VALUES(NULL, ?, ?)");
-        stmt.setString(1, name);
+
+        stmt.setString(1, userName);
         stmt.setString(2, text);
         stmt.execute();
 
@@ -70,7 +71,13 @@ public class DataLog {
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
 
         Statement stmt = conn.createStatement();
-        stmt.execute("CREATE TABLE IF NOT EXISTS MESSAGES(id IDENTITY , username VARCHAR, text VARCHAR)");
+        stmt.execute("CREATE TABLE IF NOT EXISTS MESSAGES(id IDENTITY , userID INT, text VARCHAR);");
+        Statement stmt2 = conn.createStatement();
+        stmt2.execute("CREATE TABLE IF NOT EXISTS USERS(id IDENTITY , userName VARCHAR , firstName VARCHAR , lastName VARCHAR);");
+        Statement stmt3 = conn.createStatement();
+        stmt3.execute("ALTER TABLE USERS ADD UNIQUE(userName);");
+        Statement stmt4 = conn.createStatement();
+        stmt4.execute("ALTER TABLE MESSAGES ADD FOREIGN KEY(userId) REFERENCES USERS(id);");
     }
 
 }
