@@ -78,6 +78,22 @@ public class DataLog {
         stmt.execute();
     }
 
+    public static User getUser(String username)throws SQLException {
+        ensureMessagesExists();
+        Connection conn = DriverManager.getConnection("jdbc:h2:./main");
+
+        PreparedStatement stmt = conn.prepareStatement("select * from users where userName=?");
+        stmt.setString(1, username);
+
+        ResultSet result = stmt.executeQuery();
+        String name = "";
+        while (result.next()) {
+            name = result.getString("userName");
+
+        }
+        return new User(name);
+    }
+
     private static void ensureMessagesExists() throws SQLException{
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
 
