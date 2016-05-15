@@ -12,7 +12,7 @@ public class DataLog {
         ensureMessagesExists();
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
 
-        PreparedStatement stmnt2 = conn.prepareStatement("select messages.message from messages inner join users on messages.userId = users.id where username = ?;");
+        PreparedStatement stmnt2 = conn.prepareStatement("select messages.message from messages inner join users on messages.userId = users.id where userName = ?;");
         stmnt2.setString(1, name);
 
 
