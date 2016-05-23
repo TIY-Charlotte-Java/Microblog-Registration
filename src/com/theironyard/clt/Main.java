@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class Main {
 
-    public static HashMap<String, User> users = new HashMap<>();
+
 
     public static void main(String[] args) throws SQLException {
         Spark.init();
@@ -33,7 +33,7 @@ public class Main {
             }
 
             int messageNumber = Integer.valueOf(request.queryParams("messageNum"));
-            User currentUser = users.get(session.attribute("userName"));
+            User currentUser = DataLog.getUser(session.attribute("userName"));
 
             DataLog.getMessages(currentUser.name);
 
@@ -74,9 +74,9 @@ public class Main {
 
                     // if we can't get a user from session, show login
                     if (context.attribute("userName") == null) {
-                        return new ModelAndView(users, "login.html");
+                        return new ModelAndView(null, "login.html");
                     } else {
-                        User current = users.get(context.attribute("userName"));
+                        User current = DataLog.getUser(context.attribute("userName"));
 
                         HashMap<String, Object> model = new HashMap<>();
 
@@ -89,7 +89,7 @@ public class Main {
                 new MustacheTemplateEngine()
         );
 
-        Spark.post("/create-user",
+        Spark.post("/login",
                 (request, response) -> {
                     Session session = request.session();
 
@@ -105,10 +105,9 @@ public class Main {
                         // save name to session
                         session.attribute("userName", name);
 
+
                         // make sure that the users hashmap has an entry with that name
-                        users.putIfAbsent(name, tempUser);
-                    } else {
-                        return new ModelAndView(users, "registration.html");
+                        DataLog.getUser(name);
                     }
 
 
@@ -130,7 +129,7 @@ public class Main {
                     // get message from query string
                     String message = request.queryParams("message");
 
-                    User currentUser = users.get(session.attribute("userName"));
+                    User currentUser = DataLog.getUser(session.attribute("userName"));
 
                     DataLog.addMessage(currentUser.name, message);
                     response.redirect("/");

@@ -12,7 +12,7 @@ public class DataLog {
         ensureMessagesExists();
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
 
-        PreparedStatement stmnt2 = conn.prepareStatement("select messages.message from messages inner join users on messages.userId = users.id where username = ?;");
+        PreparedStatement stmnt2 = conn.prepareStatement("select messages.message from messages inner join users on messages.userId = users.id where userName = ?;");
         stmnt2.setString(1, name);
 
 
@@ -76,6 +76,22 @@ public class DataLog {
         stmt.setString(2, firstName);
         stmt.setString(3, lastName);
         stmt.execute();
+    }
+
+    public static User getUser(String username)throws SQLException {
+        ensureMessagesExists();
+        Connection conn = DriverManager.getConnection("jdbc:h2:./main");
+
+        PreparedStatement stmt = conn.prepareStatement("select * from users where userName=?");
+        stmt.setString(1, username);
+
+        ResultSet result = stmt.executeQuery();
+        String name = "";
+        while (result.next()) {
+            name = result.getString("userName");
+
+        }
+        return new User(name);
     }
 
     private static void ensureMessagesExists() throws SQLException{
